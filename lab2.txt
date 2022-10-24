@@ -44,3 +44,16 @@ select city, EmployeeID from Employees
 select ProductID from Products 
 except  
 select distinct ProductID from [Order Details]
+
+
+select Products.ProductID, OrderID
+from Products left join [Order Details]
+on Products.ProductID=[Order Details].ProductID
+where OrderID is null
+
+--7
+
+select Customers.CustomerID
+from Customers left join Orders
+on Customers.CustomerID=Orders.CustomerID
+where OrderID is null
