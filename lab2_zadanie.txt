@@ -1,0 +1,12 @@
+--1
+select CategoryID, avg(UnitPrice) from Products
+where CategoryID != (select CategoryID=(select CategoryID from Categories where CategoryName='Seafood'))
+group by CategoryID;
+
+--2
+select CategoryID, avg([Order Details].UnitPrice-([Order Details].UnitPrice*Discount))  from [Order Details]
+inner join Products on Products.ProductID=[Order Details].ProductID
+group by CategoryID
+
+--3
+
