@@ -9,7 +9,9 @@ inner join Products on Products.ProductID=[Order Details].ProductID
 group by CategoryID
 
 --3
-
+Select AVG(UnitPrice)as 'sum',CategoryName from Products
+inner join Categories on Products.CategoryID=Categories.CategoryID
+group by CategoryName having AVG(UnitPrice)>10
 
 --4
 select min(HireDate)as hireDate, Title from Employees
