@@ -9,7 +9,7 @@ inner join Products on Products.ProductID=[Order Details].ProductID
 group by CategoryID
 
 --3
-Select AVG(UnitPrice)as 'sum',CategoryName from Products
+Select Categoryname, AVG(UnitPrice)as averagePrice from Products
 inner join Categories on Products.CategoryID=Categories.CategoryID
 group by CategoryName having AVG(UnitPrice)>10
 
