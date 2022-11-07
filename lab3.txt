@@ -46,6 +46,13 @@ select OrderID, OrderDate from orders
 order by OrderDate
 
 --6.	Wypisz nazwę i adres najczęściej zamawiającego klienta
-select customerID, count(orderID) as 'number of orders' from orders
+select companyname, address from Customers
+where companyname=(select companyname from customers
+inner join orders on orders.CustomerID=Customers.CustomerID
+group by CompanyName
+having count(orderID)>=all(select count(orderID) from orders
+group by CustomerID))
+
+select count(orderID) from orders
 group by CustomerID
-order by 2 desc
+order by 1 desc
