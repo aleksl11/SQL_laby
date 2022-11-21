@@ -22,3 +22,16 @@ declare @wynik date
 exec zatrud_dept 20, @wynik output
 select @wynik
 
+--zzdefiniuj procedure, ktora wyswietli nazwisko najgorzej zarabiajacej osoby w departamencie
+create proc najgorszaPensja
+(
+	@dept int,
+	@nazwisko varchar(20) output)
+as
+	select @nazwisko=NAZWISKO from Pracownicy
+	where KOD_dzialu =@dept and pensja = (select min(PENSJA)from Pracownicy
+											where KOD_dzialu =@dept)
+declare @wynik varchar(20)
+exec najgorszaPensja 10, @wynik output
+select @wynik
+select * from Pracownicy
