@@ -10,3 +10,15 @@ select * from Pracownicy
 
 --2	Stwórz procedurę która wypisze najwcześniej zatrudnione osoby, w każdym departamencie. Identyfikator departamentu powinien być przekazanym jako argument procedur. 
 --Natomiast data zatrudnienia przekazywana jest przez drugi argument, który jest zadeklarowany jako wyjściowy.
+create proc zatrud_dept
+(
+	@dept int,
+	@data_zatrud date output)
+as
+	select @data_zatrud=min(data_zatrud) from Pracownicy
+	where KOD_dzialu =@dept
+
+declare @wynik date
+exec zatrud_dept 20, @wynik output
+select @wynik
+
