@@ -35,3 +35,8 @@ declare @wynik varchar(20)
 exec najgorszaPensja 10, @wynik output
 select @wynik
 select * from Pracownicy
+
+--return
+create proc return_exp as
+declare @ile int
+select @ile = count(identyfikator) --dodnczyc
