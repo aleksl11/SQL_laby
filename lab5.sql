@@ -39,4 +39,4 @@ select * from Pracownicy
 --return
 create proc return_exp as
 declare @ile int
-select @ile = count(identyfikator) --dodnczyc
+select @ile = count(identyfikator) --dokoczyc
