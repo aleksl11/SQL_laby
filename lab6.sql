@@ -73,5 +73,30 @@ select * from PRACOWNICY
 
 drop trigger prowizja
 
+--6.Zapisz w tabeli LOG informacje o tym kto skasował którego klienta.
+
+create table LOG(
+	kto varchar(30),
+	kogo varchar(20),
+	kiedy date
+)
+
+create trigger rejestr on Pracownicy
+after delete
+as	
+	declare @name varchar(20)
+	select @name=nazwisko from deleted
+	insert into LOG values(SUSER_NAME(),@name,GETDATE())
+
+delete from pracownicy where IDENTYFIKATOR=18
+
+select * from LOG
+
+INSERT INTO PRACOWNICY VALUES ('Lenart','Aleksandra','Prezes',NULL,'2002-01-01',7000.20,NULL,10);
+INSERT INTO PRACOWNICY VALUES ('Lenart','Aleksandra','Prezes',NULL,'2002-01-01',7000.20,NULL,10);
+
+delete from pracownicy where IDENTYFIKATOR=19
+delete from pracownicy where IDENTYFIKATOR=20
+
 
 
