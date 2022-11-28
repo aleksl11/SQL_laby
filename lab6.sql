@@ -13,6 +13,8 @@ update Pracownicy set pensja = 5000 where IDENTYFIKATOR=1
 
 delete from Pracownicy where IDENTYFIKATOR=17
 
+drop trigger proba
+
 --4.Zdefiniuj wyzwalacz, który zabroni zmniejszania pensji pracownikom
 
 create trigger zmiana 
