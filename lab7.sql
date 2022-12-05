@@ -22,3 +22,20 @@ begin
 end
 commit transaction
 
+-- kursor wyswietlajacy nazwiska pracownikow
+
+declare @n varchar(20)
+declare @i int=0
+
+declare k1 cursor
+for select nazwisko from Pracownicy
+open k1
+fetch next from k1 into @n
+while @@FETCH_STATUS=0
+begin
+	set @i +=1
+	print @n+' - to jest nazwisko z wiersza numer '+cast(@i as varchar(3))
+	fetch next from k1 into @n
+end
+close k1
+deallocate k1 
