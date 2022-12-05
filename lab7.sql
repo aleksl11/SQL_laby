@@ -68,3 +68,33 @@ begin
 end
 close k2
 deallocate k2
+
+
+--trigger
+
+select * from log
+
+
+create trigger usuwanie 
+on Pracownicy
+for delete 
+as 
+begin
+	declare @kto varchar(30)
+	set @kto=SUSER_NAME()
+	declare @kogo varchar(10)
+	declare kursor cursor
+	for select nazwisko from deleted
+	open kursor
+		fetch next from kursor into @kogo
+		while @@FETCH_STATUS=0
+		begin
+			insert into log values (@kto,@kogo,CURRENT_TIMESTAMP)
+			fetch next from kursor into @kogo
+		end
+	close kursor
+	deallocate kursor
+end
+
+select * from Pracownicy
+delete  from Pracownicy where IDENTYFIKATOR in (13,15) 
