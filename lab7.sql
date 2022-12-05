@@ -11,3 +11,14 @@ insert into Produkty values(300,1)
 insert into Produkty values(300,2)
 insert into Produkty values(300,3)
 select * from Produkty
+
+begin transaction zmiana
+save transaction z1
+update Produkty set nr_magazynu=2 where nr_magazynu=1
+if(select sum(ilosc) from Produkty where nr_magazynu=2)>500
+begin 
+	rollback transaction z1
+	update Produkty set nr_magazynu=3 where nr_magazynu=1
+end
+commit transaction
+
