@@ -39,3 +39,32 @@ begin
 end
 close k1
 deallocate k1 
+
+--pula 1000zl rozdzielic miedzy pracownikow +5% od tych najmniej zarabiajacych
+
+declare @zarobki money
+declare @podwyzka money
+declare @pula money 
+set @pula = 1000
+
+declare k2 cursor
+for select pensja from Pracownicy order by PENSJA
+
+open k2
+fetch next from k2 into @zarobki 
+while @@FETCH_STATUS=0
+begin
+	set @podwyzka=0.05*@zarobki
+	if @pula-@podwyzka<0 break; 
+	set @pula-=@podwyzka
+	print cast(@podwyzka as varchar(6))+' w puli: '+cast(@pula as varchar(6))
+	update Pracownicy set PENSJA +=@podwyzka where current of k2
+	fetch next from k2 into @zarobki 
+end
+if @pula>0
+begin
+	print cast(@pula as varchar(6))+' w puli: 0'
+	update Pracownicy set PENSJA +=@pula where current of k2
+end
+close k2
+deallocate k2
