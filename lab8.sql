@@ -42,3 +42,34 @@ insert into Pracownicy(kierownik) values (4)
 select * from Pracownicy
 
 update Pracownicy set KIEROWNIK=4 where identyfikator = 4
+
+--Stwórz wyzwalacz, który w tabeli LOG_ZMIAN będzie raportował jaka operacja (update, insert czy deleted) przez jakiego użytkownika,
+-- z jakiego komputera i której godzinie została wykonana na tabeli pracownicy.
+
+create table log_zmian(
+	ID int identity(1,1) primary key,
+	operacja varchar(2),
+	uzytkownik varchar(15),
+	host varchar(15),
+	kiedy datetime
+)
+
+create trigger zmiana on Pracownicy
+after insert,update,delete
+as
+begin
+	insert into log_zmian values(
+		(case
+			when exists(select *from deleted) and exists(select *from inserted)
+			then 'u'
+			when exists(select *from deleted)
+			then 'd'
+			when exists(select *from inserted)
+			then 'i'
+		end),SUSER_SNAME(),HOST_NAME(),CURRENT_TIMESTAMP)
+end
+
+insert into Pracownicy (nazwisko,imie) values ('jan', 'kowalski')
+
+select * from log_zmian
+select * from Pracownicy
