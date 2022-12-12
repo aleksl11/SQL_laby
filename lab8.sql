@@ -22,3 +22,23 @@ end
 
 insert into Pracownik(imie,nazwisko,pesel) values ('fr','fdhga','12344567865')
 select * from Pracownik
+
+--Kierownik może zarządzać maksymalnie 5 pracownikami. Opracuj rozwiązanie, które w przypadku przekroczenia ilości pracowników będzie wyświetlała wiadomość o obciążeniu kierownika.
+
+select * from Pracownicy
+
+alter trigger maks on Pracownicy
+after insert,update
+as
+begin
+	if((select count(kierownik) from Pracownicy  where kierownik=(select kierownik from inserted))>5)
+	begin
+		print('Kierownik obciążony')
+		rollback
+	end
+end
+
+insert into Pracownicy(kierownik) values (4)
+select * from Pracownicy
+
+update Pracownicy set KIEROWNIK=4 where identyfikator = 4
